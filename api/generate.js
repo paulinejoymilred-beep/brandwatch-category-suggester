@@ -36,13 +36,14 @@ Format:
     "categories": [
       {
         "name": "Category Name",
-        "description": "1-2 sentence description of what this category tracks and why it matters for social listening"
+        "description": "1-2 sentence description of what this category tracks and why it matters for social listening",
+        "boolean_rule": "A Brandwatch-compatible boolean rule using AND, OR, NOT operators and quotes for exact phrases. Example: (\\"brand love\\" OR \\"love loreal\\" OR \\"obsessed with\\") AND (loreal OR \\"l'oreal\\")"
       }
     ]
   }
 ]
 
-Generate 4-6 parent categories, each with 2-4 sub-categories. Make them specific, actionable, and relevant to social listening for ${brand} in ${industry} with objective: ${objective}.`
+Generate 4-6 parent categories, each with 2-4 sub-categories. Make them specific, actionable, and relevant to social listening for ${brand} in ${industry} with objective: ${objective}. Boolean rules must be realistic, specific, and ready to use in Brandwatch.`
         }]
       })
     });
