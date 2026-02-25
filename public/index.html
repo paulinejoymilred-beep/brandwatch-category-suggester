@@ -392,7 +392,44 @@
       color: var(--grey);
       line-height: 1.5;
       font-weight: 300;
+      margin-bottom: 10px;
     }
+
+    .cat-boolean {
+      background: rgba(0,87,255,0.08);
+      border: 1px solid rgba(0,87,255,0.2);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+      color: #7ab3ff;
+      line-height: 1.5;
+      word-break: break-word;
+      position: relative;
+    }
+
+    .cat-boolean-label {
+      font-size: 9px;
+      font-family: 'DM Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(0,87,255,0.6);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-copy-rule {
+      background: none;
+      border: none;
+      color: rgba(0,87,255,0.5);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .btn-copy-rule:hover { color: var(--blue-light); }
 
     /* Footer */
     footer {
@@ -581,12 +618,21 @@
         section.className = 'parent-section';
         section.style.animationDelay = delay + 'ms';
 
-        const catsHTML = parent.categories.map(cat => `
-          <div class="cat-card">
+        const catsHTML = parent.categories.map(cat => {
+          const boolHtml = cat.boolean_rule ? `
+            <div class="cat-boolean">
+              <div class="cat-boolean-label">
+                <span>⚙ Boolean Rule</span>
+                <button class="btn-copy-rule" onclick="copyRule(this, this.dataset.rule)" data-rule="${cat.boolean_rule.replace(/"/g, '&quot;')}">Copy</button>
+              </div>
+              ${cat.boolean_rule}
+            </div>` : '';
+          return `<div class="cat-card">
             <div class="cat-name">${cat.name}</div>
             <div class="cat-desc">${cat.description}</div>
-          </div>
-        `).join('');
+            ${boolHtml}
+          </div>`;
+        }).join('');
 
         section.innerHTML = `
           <div class="parent-header">
@@ -604,14 +650,21 @@
 
     function exportCSV() {
       if (!taxonomyData) return;
-      let csv = 'Parent Category,Category Name,Description\n';
+      let csv = 'Parent Category,Category Name,Description,Boolean Rule\n';
       taxonomyData.forEach(p => {
         p.categories.forEach(c => {
-          csv += `"${p.parent}","${c.name}","${c.description.replace(/"/g, '""')}"\n`;
+          csv += `"${p.parent}","${c.name}","${c.description.replace(/"/g, '""')}","${(c.boolean_rule || '').replace(/"/g, '""')}"\n`;
         });
       });
       downloadFile(csv, 'taxonomy.csv', 'text/csv');
       showToast();
+    }
+
+    function copyRule(btn, rule) {
+      navigator.clipboard.writeText(rule).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
     }
 
     function exportJSON() {
