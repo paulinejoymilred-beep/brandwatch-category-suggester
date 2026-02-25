@@ -21,13 +21,14 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 2000,
+        max_tokens: 3000,
         messages: [{
           role: 'user',
           content: `You are an expert in social media listening and Brandwatch Consumer Research.
 Generate a professional category taxonomy for a ${industry} company called ${brand}, with the objective: ${objective}.
 
-Return ONLY a valid JSON array. No explanation, no markdown, no backticks, just the raw JSON.
+CRITICAL: Return ONLY a valid JSON array. No explanation, no markdown, no backticks.
+In boolean_rule values, use single quotes ONLY (never double quotes). Use parentheses and AND/OR/NOT operators.
 
 Format:
 [
@@ -36,14 +37,14 @@ Format:
     "categories": [
       {
         "name": "Category Name",
-        "description": "1-2 sentence description of what this category tracks and why it matters for social listening",
-        "boolean_rule": "A Brandwatch-compatible boolean rule using AND, OR, NOT operators and quotes for exact phrases. Example: (\\"brand love\\" OR \\"love loreal\\" OR \\"obsessed with\\") AND (loreal OR \\"l'oreal\\")"
+        "description": "1-2 sentence description of what this category tracks and why it matters",
+        "boolean_rule": "(brand love OR love loreal OR obsessed with) AND (loreal OR l'oreal)"
       }
     ]
   }
 ]
 
-Generate 4-6 parent categories, each with 2-4 sub-categories. Make them specific, actionable, and relevant to social listening for ${brand} in ${industry} with objective: ${objective}. Boolean rules must be realistic, specific, and ready to use in Brandwatch.`
+Generate 4-6 parent categories, each with 2-4 sub-categories. Boolean rules must use single quotes only, be specific and ready to use in Brandwatch.`
         }]
       })
     });
@@ -54,7 +55,11 @@ Generate 4-6 parent categories, each with 2-4 sub-categories. Make them specific
       return res.status(response.status).json({ error: data.error?.message || 'Claude API error' });
     }
 
-    const text = data.content[0].text;
+    let text = data.content[0].text;
+
+    // Clean up common JSON issues
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
     const parsed = JSON.parse(text);
     return res.status(200).json({ taxonomy: parsed });
 
