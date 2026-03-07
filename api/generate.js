@@ -30,20 +30,19 @@ Generate a professional category taxonomy for a ${industry} company called ${bra
 CRITICAL JSON RULES:
 - Return ONLY a valid JSON array, nothing else
 - No markdown, no backticks, no explanations
-- Never use double quotes inside boolean_rule values — use ONLY single quotes for multi-word expressions
+- For boolean_rule values: escape double quotes as \\" so the JSON stays valid
 
 BOOLEAN RULE FORMATTING RULES — follow these exactly:
 1. Single words must NOT be in quotes: cancel price cheaper unsubscribe
-2. Multi-word expressions MUST be in single quotes: 'content library' 'subscription cost' 'monthly price'
+2. Multi-word expressions MUST use escaped double quotes like this: \\"content library\\" \\"subscription cost\\"
 3. Use NEAR/x operator instead of AND to capture proximity between brand and topic
 4. Group similar keywords with OR
-5. Structure: (brand NEAR/10 (keyword1 OR keyword2 OR 'multi word phrase'))
-6. You can chain multiple NEAR groups with OR for broader coverage
+5. Structure: (brand NEAR/10 (keyword OR \\"multi word phrase\\"))
 
-Good boolean_rule examples:
-- (netflix NEAR/10 (price OR cost OR expensive OR cheaper OR 'subscription fee' OR 'monthly price')) OR (netflix NEAR/10 (cancel OR unsubscribe OR switching OR leaving))
-- (apple NEAR/10 ('customer service' OR support OR help OR 'tech support')) OR (apple NEAR/10 (broken OR defective OR 'not working' OR malfunction))
-- (loreal NEAR/10 ('brand image' OR reputation OR perception OR trust OR authenticity))
+Good boolean_rule examples (note the escaped quotes):
+- (netflix NEAR/10 (price OR cost OR expensive OR cheaper OR \\"subscription fee\\" OR \\"monthly price\\")) OR (netflix NEAR/10 (cancel OR unsubscribe OR switching OR leaving))
+- (apple NEAR/10 (\\"customer service\\" OR support OR help OR \\"tech support\\")) OR (apple NEAR/10 (broken OR defective OR \\"not working\\" OR malfunction))
+- (loreal NEAR/10 (\\"brand image\\" OR reputation OR perception OR trust OR authenticity))
 
 Format:
 [
@@ -53,7 +52,7 @@ Format:
       {
         "name": "Category Name",
         "description": "1-2 sentence description of what this category tracks and why it matters",
-        "boolean_rule": "(${brand} NEAR/10 (keyword OR keyword OR 'multi word')) OR (${brand} NEAR/10 (keyword OR 'other phrase'))"
+        "boolean_rule": "(${brand} NEAR/10 (keyword OR \\"multi word\\" OR keyword))"
       }
     ]
   }
@@ -72,12 +71,6 @@ Generate 4-6 parent categories, each with 2-4 sub-categories. Make rules specifi
 
     let text = data.content[0].text;
     text = text.replace(/```json/g, '').replace(/```/g, '').trim();
-
-    // Safety net: replace any double quotes inside boolean_rule values with single quotes
-    text = text.replace(/"boolean_rule":\s*"(.*?)(?<!\\)"/gs, (match, rule) => {
-      const cleaned = rule.replace(/"/g, "'");
-      return `"boolean_rule": "${cleaned}"`;
-    });
 
     const parsed = JSON.parse(text);
     return res.status(200).json({ taxonomy: parsed });
