@@ -16,35 +16,39 @@ export default async function handler(req, res) {
 
   try {
     for (const group of taxonomy) {
-      for (const cat of group.categories) {
-        try {
-          const response = await fetch(`https://api.brandwatch.com/projects/${projectId}/categories`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              name: cat.name,
-              queries: [
-                {
-                  name: cat.name,
-                  booleanQuery: cat.boolean_rule
-                }
-              ]
-            })
-          });
+      try {
+        // Each parent category becomes a Category with its subcategories as children
+        const body = {
+          name: group.parent,
+          multiple: true,
+          children: group.categories.map(cat => ({
+            name: cat.name,
+            rules: cat.boolean_rule ? [{
+              filter: {
+                search: cat.boolean_rule
+              }
+            }] : []
+          }))
+        };
 
-          const data = await response.json();
+        const response = await fetch(`https://api.brandwatch.com/projects/${projectId}/rulecategories`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
 
-          if (response.ok) {
-            results.created.push(cat.name);
-          } else {
-            results.failed.push({ name: cat.name, error: data.message || 'Unknown error' });
-          }
-        } catch (err) {
-          results.failed.push({ name: cat.name, error: err.message });
+        const data = await response.json();
+
+        if (response.ok) {
+          results.created.push(`${group.parent} (${group.categories.length} subcategories)`);
+        } else {
+          results.failed.push({ name: group.parent, error: data.message || JSON.stringify(data) });
         }
+      } catch (err) {
+        results.failed.push({ name: group.parent, error: err.message });
       }
     }
 
