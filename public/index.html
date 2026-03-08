@@ -21,452 +21,116 @@
       --border: rgba(0, 87, 255, 0.2);
     }
 
-    body {
-      background: var(--navy);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--navy); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-    /* Background grid */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,87,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,87,255,0.04) 1px, transparent 1px);
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,87,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,87,255,0.04) 1px, transparent 1px);
       background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
-    .glow {
-      position: fixed;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,87,255,0.12) 0%, transparent 70%);
-      top: -200px; right: -200px;
-      pointer-events: none;
-      z-index: 0;
-    }
+    .glow { position: fixed; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,87,255,0.12) 0%, transparent 70%); top: -200px; right: -200px; pointer-events: none; z-index: 0; }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-      z-index: 1;
-    }
+    header { padding: 32px 0 0; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon { width: 36px; height: 36px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.05em; color: var(--grey); text-transform: uppercase; }
+    .badge { background: rgba(0,87,255,0.15); border: 1px solid var(--border); color: var(--blue-light); font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-    /* Header */
-    header {
-      padding: 32px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .hero { padding: 60px 0 48px; text-align: center; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(36px, 6vw, 64px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero h1 span { background: linear-gradient(135deg, var(--blue-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--grey); font-size: 17px; font-weight: 300; max-width: 480px; margin: 0 auto; line-height: 1.6; }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--blue);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.05em;
-      color: var(--grey);
-      text-transform: uppercase;
-    }
-
-    .badge {
-      background: rgba(0,87,255,0.15);
-      border: 1px solid var(--border);
-      color: var(--blue-light);
-      font-size: 11px;
-      font-weight: 500;
-      padding: 4px 12px;
-      border-radius: 20px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    /* Hero */
-    .hero {
-      padding: 60px 0 48px;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(36px, 6vw, 64px);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--blue-light), var(--cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      color: var(--grey);
-      font-size: 17px;
-      font-weight: 300;
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    /* API Key bar */
-    .apikey-bar {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .apikey-bar label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--grey);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-    }
-
-    .apikey-bar input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-    }
-
+    .apikey-bar { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .apikey-bar label { font-size: 12px; font-weight: 500; color: var(--grey); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .apikey-bar input { flex: 1; background: transparent; border: none; outline: none; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; }
     .apikey-bar input::placeholder { color: rgba(136,153,170,0.4); }
-
-    .key-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--grey);
-      flex-shrink: 0;
-      transition: background 0.3s;
-    }
+    .key-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grey); flex-shrink: 0; transition: background 0.3s; }
     .key-dot.active { background: #00cc66; box-shadow: 0 0 8px #00cc66; }
 
-    /* Main form card */
-    .form-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 36px;
-      margin-bottom: 32px;
-    }
+    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 36px; margin-bottom: 32px; }
+    .fields-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+    @media (max-width: 640px) { .fields-grid { grid-template-columns: 1fr; } }
 
-    .fields-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    @media (max-width: 640px) {
-      .fields-grid { grid-template-columns: 1fr; }
-    }
-
-    .field label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--grey);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 12px 16px;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-    }
-
-    .field input:focus,
-    .field select:focus {
-      border-color: var(--blue);
-    }
-
+    .field label { display: block; font-size: 11px; font-weight: 600; color: var(--grey); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .field input, .field select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; appearance: none; }
+    .field input:focus, .field select:focus { border-color: var(--blue); }
     .field input::placeholder { color: rgba(136,153,170,0.4); }
-
     .field select option { background: var(--navy2); }
 
-    .btn-generate {
-      width: 100%;
-      padding: 16px;
-      background: var(--blue);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
+    .btn-generate { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 12px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
     .btn-generate:hover { background: var(--blue-light); transform: translateY(-1px); }
-    .btn-generate:active { transform: translateY(0); }
     .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    /* Loading */
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 60px 0;
-    }
-
+    .loading { display: none; text-align: center; padding: 60px 0; }
     .loading.show { display: block; }
-
-    .spinner {
-      width: 48px; height: 48px;
-      border: 3px solid rgba(0,87,255,0.2);
-      border-top-color: var(--blue);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
-    }
-
+    .spinner { width: 48px; height: 48px; border: 3px solid rgba(0,87,255,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading p { color: var(--grey); font-size: 14px; }
 
-    .loading p {
-      color: var(--grey);
-      font-size: 14px;
-    }
-
-    /* Error */
-    .error-box {
-      display: none;
-      background: rgba(255, 60, 60, 0.1);
-      border: 1px solid rgba(255,60,60,0.3);
-      border-radius: 12px;
-      padding: 16px 20px;
-      color: #ff8080;
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
+    .error-box { display: none; background: rgba(255,60,60,0.1); border: 1px solid rgba(255,60,60,0.3); border-radius: 12px; padding: 16px 20px; color: #ff8080; font-size: 14px; margin-bottom: 24px; }
     .error-box.show { display: block; }
 
-    /* Results */
     .results { display: none; }
     .results.show { display: block; }
-
-    .results-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      flex-wrap: gap;
-      gap: 12px;
-    }
-
-    .results-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 20px;
-    }
-
+    .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .results-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; }
     .results-title span { color: var(--grey); font-weight: 400; font-size: 14px; margin-left: 8px; }
-
     .export-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-export { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--grey); font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .btn-export:hover { background: rgba(0,87,255,0.1); border-color: var(--border); color: var(--blue-light); }
 
-    .btn-export {
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      color: var(--grey);
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: 'DM Sans', sans-serif;
-    }
+    .parent-section { margin-bottom: 28px; animation: fadeUp 0.4s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .parent-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .parent-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .parent-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.02em; }
+    .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 
-    .btn-export:hover {
-      background: rgba(0,87,255,0.1);
-      border-color: var(--border);
-      color: var(--blue-light);
-    }
-
-    .parent-section {
-      margin-bottom: 28px;
-      animation: fadeUp 0.4s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .parent-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .parent-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .parent-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: 0.02em;
-    }
-
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
-    }
-
-    .cat-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 16px 18px;
-      transition: all 0.2s;
-    }
-
-    .cat-card:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.12);
-      transform: translateY(-2px);
-    }
-
-    .cat-name {
-      font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 6px;
-      color: var(--white);
-    }
-
-    .cat-desc {
-      font-size: 13px;
-      color: var(--grey);
-      line-height: 1.5;
-      font-weight: 300;
-      margin-bottom: 10px;
-    }
-
-    .cat-boolean {
-      background: rgba(0,87,255,0.08);
-      border: 1px solid rgba(0,87,255,0.2);
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 11px;
-      font-family: 'Courier New', monospace;
-      color: #7ab3ff;
-      line-height: 1.5;
-      word-break: break-word;
-      position: relative;
-    }
-
-    .cat-boolean-label {
-      font-size: 9px;
-      font-family: 'DM Sans', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(0,87,255,0.6);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .btn-copy-rule {
-      background: none;
-      border: none;
-      color: rgba(0,87,255,0.5);
-      cursor: pointer;
-      font-size: 11px;
-      padding: 0;
-      transition: color 0.2s;
-    }
+    .cat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px 18px; transition: all 0.2s; }
+    .cat-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
+    .cat-name { font-weight: 600; font-size: 14px; margin-bottom: 6px; color: var(--white); }
+    .cat-desc { font-size: 13px; color: var(--grey); line-height: 1.5; font-weight: 300; margin-bottom: 10px; }
+    .cat-boolean { background: rgba(0,87,255,0.08); border: 1px solid rgba(0,87,255,0.2); border-radius: 8px; padding: 8px 10px; font-size: 11px; font-family: 'Courier New', monospace; color: #7ab3ff; line-height: 1.5; word-break: break-word; }
+    .cat-boolean-label { font-size: 9px; font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(0,87,255,0.6); margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+    .btn-copy-rule { background: none; border: none; color: rgba(0,87,255,0.5); cursor: pointer; font-size: 11px; padding: 0; transition: color 0.2s; }
     .btn-copy-rule:hover { color: var(--blue-light); }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 0 32px;
-      color: rgba(136,153,170,0.4);
-      font-size: 12px;
-      position: relative;
-      z-index: 1;
-    }
+    /* Brandwatch Push Section */
+    .bw-section { display: none; background: var(--card); border: 1px solid rgba(0,200,120,0.25); border-radius: 20px; padding: 32px 36px; margin-bottom: 32px; animation: fadeUp 0.4s ease both; }
+    .bw-section.show { display: block; }
+    .bw-section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .bw-dot { width: 8px; height: 8px; border-radius: 50%; background: #00cc88; box-shadow: 0 0 8px #00cc88; }
+    .bw-section-subtitle { font-size: 13px; color: var(--grey); margin-bottom: 24px; }
+    .bw-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 640px) { .bw-fields { grid-template-columns: 1fr; } }
 
-    .copied-toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #00cc66;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s;
-      pointer-events: none;
-      z-index: 100;
-    }
+    .btn-push { width: 100%; padding: 16px; background: linear-gradient(135deg, #00cc88, #00a86b); color: white; border: none; border-radius: 12px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; }
+    .btn-push:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-push:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    .copied-toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .push-results { display: none; margin-top: 20px; }
+    .push-results.show { display: block; }
+    .push-success { background: rgba(0,204,136,0.08); border: 1px solid rgba(0,204,136,0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; }
+    .push-success-title { font-weight: 600; font-size: 14px; color: #00cc88; margin-bottom: 8px; }
+    .push-success-list { font-size: 13px; color: var(--grey); line-height: 1.8; }
+    .push-failed { background: rgba(255,60,60,0.08); border: 1px solid rgba(255,60,60,0.2); border-radius: 12px; padding: 16px 20px; }
+    .push-failed-title { font-weight: 600; font-size: 14px; color: #ff8080; margin-bottom: 8px; }
+    .bw-error { display: none; background: rgba(255,60,60,0.1); border: 1px solid rgba(255,60,60,0.3); border-radius: 10px; padding: 12px 16px; color: #ff8080; font-size: 13px; margin-top: 12px; }
+    .bw-error.show { display: block; }
+
+    footer { text-align: center; padding: 40px 0 32px; color: rgba(136,153,170,0.4); font-size: 12px; position: relative; z-index: 1; }
+    .copied-toast { position: fixed; bottom: 24px; right: 24px; background: #00cc66; color: white; padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 500; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; z-index: 100; }
+    .copied-toast.show { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
   <div class="glow"></div>
-
   <div class="container">
     <header>
       <div class="logo">
@@ -481,11 +145,18 @@
       <p>Describe your brand and objective — get a complete Brandwatch category structure in seconds.</p>
     </div>
 
-    <!-- API Key -->
-    <div class="apikey-bar">
+    <!-- Claude API Key -->
+    <div class="apikey-bar" style="margin-bottom:12px">
       <span class="key-dot" id="keyDot"></span>
       <label>Claude API Key</label>
       <input type="password" id="apiKey" placeholder="sk-ant-api03-..." oninput="updateKeyDot()" />
+    </div>
+
+    <!-- Brandwatch Token -->
+    <div class="apikey-bar" style="margin-bottom:24px; border-color: rgba(0,200,120,0.25);">
+      <span class="key-dot" id="bwDot"></span>
+      <label style="color:#00cc88">Brandwatch Token</label>
+      <input type="password" id="bwToken" placeholder="Your Brandwatch API token..." oninput="updateBwDot()" />
     </div>
 
     <!-- Form -->
@@ -550,6 +221,45 @@
       </div>
       <div id="taxonomyOutput"></div>
     </div>
+
+    <!-- Brandwatch Push Section -->
+    <div class="bw-section" id="bwSection">
+      <div class="bw-section-title">
+        <span class="bw-dot"></span>
+        Push to Brandwatch
+      </div>
+      <div class="bw-section-subtitle">Select a project and push your taxonomy directly into Brandwatch Consumer Research.</div>
+
+      <div class="bw-fields">
+        <div class="field">
+          <label>Brandwatch Project</label>
+          <select id="bwProject">
+            <option value="">Loading projects…</option>
+          </select>
+        </div>
+        <div class="field" style="display:flex; align-items:flex-end;">
+          <button class="btn-export" onclick="loadProjects()" style="height:46px; width:100%;">🔄 Refresh Projects</button>
+        </div>
+      </div>
+
+      <button class="btn-push" id="pushBtn" onclick="pushToBrandwatch()">
+        🚀 Push Categories to Brandwatch
+      </button>
+
+      <div class="bw-error" id="bwError"></div>
+
+      <div class="push-results" id="pushResults">
+        <div class="push-success" id="pushSuccess" style="display:none">
+          <div class="push-success-title">✅ Categories created successfully</div>
+          <div class="push-success-list" id="pushSuccessList"></div>
+        </div>
+        <div class="push-failed" id="pushFailed" style="display:none">
+          <div class="push-failed-title">⚠️ Some categories failed</div>
+          <div class="push-success-list" id="pushFailedList"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <footer>Built for Brandwatch · Powered by Claude AI</footer>
@@ -564,23 +274,55 @@
       document.getElementById('keyDot').classList.toggle('active', key.length > 20);
     }
 
+    function updateBwDot() {
+      const token = document.getElementById('bwToken').value;
+      document.getElementById('bwDot').classList.toggle('active', token.length > 10);
+      if (token.length > 10) loadProjects();
+    }
+
+    async function loadProjects() {
+      const token = document.getElementById('bwToken').value.trim();
+      if (!token) return;
+
+      const select = document.getElementById('bwProject');
+      select.innerHTML = '<option value="">Loading…</option>';
+
+      try {
+        const res = await fetch(`/api/bw-projects?token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Failed to load projects');
+
+        select.innerHTML = '<option value="">Select a project…</option>';
+        data.projects.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = p.name;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        select.innerHTML = '<option value="">Error loading projects</option>';
+        document.getElementById('bwError').textContent = '⚠️ ' + err.message;
+        document.getElementById('bwError').classList.add('show');
+      }
+    }
+
     async function generate() {
       const apiKey = document.getElementById('apiKey').value.trim();
       const brand = document.getElementById('brand').value.trim();
       const industry = document.getElementById('industry').value;
       const objective = document.getElementById('objective').value;
 
-      // Validation
       hideError();
       if (!apiKey) return showError('Please enter your Claude API key above.');
       if (!brand) return showError('Please enter a brand name.');
       if (!industry) return showError('Please select an industry.');
       if (!objective) return showError('Please select a main objective.');
 
-      // UI state
       document.getElementById('generateBtn').disabled = true;
       document.getElementById('loading').classList.add('show');
       document.getElementById('results').classList.remove('show');
+      document.getElementById('bwSection').classList.remove('show');
 
       try {
         const res = await fetch('/api/generate', {
@@ -590,11 +332,15 @@
         });
 
         const data = await res.json();
-
         if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
         taxonomyData = data.taxonomy;
-        renderTaxonomy(taxonomyData, brand, industry, objective);
+        renderTaxonomy(taxonomyData);
+
+        // Show Brandwatch push section if token is present
+        if (document.getElementById('bwToken').value.trim()) {
+          document.getElementById('bwSection').classList.add('show');
+        }
 
       } catch (err) {
         showError(err.message || 'Failed to generate. Check your API key and try again.');
@@ -604,7 +350,7 @@
       }
     }
 
-    function renderTaxonomy(taxonomy, brand, industry, objective) {
+    function renderTaxonomy(taxonomy) {
       const container = document.getElementById('taxonomyOutput');
       const total = taxonomy.reduce((acc, p) => acc + p.categories.length, 0);
       document.getElementById('resultsCount').textContent = `— ${taxonomy.length} groups · ${total} categories`;
@@ -612,11 +358,9 @@
 
       taxonomy.forEach((parent, i) => {
         const color = COLORS[i % COLORS.length];
-        const delay = i * 80;
-
         const section = document.createElement('div');
         section.className = 'parent-section';
-        section.style.animationDelay = delay + 'ms';
+        section.style.animationDelay = (i * 80) + 'ms';
 
         const catsHTML = parent.categories.map(cat => {
           const boolHtml = cat.boolean_rule ? `
@@ -641,11 +385,62 @@
           </div>
           <div class="categories-grid">${catsHTML}</div>
         `;
-
         container.appendChild(section);
       });
 
       document.getElementById('results').classList.add('show');
+    }
+
+    async function pushToBrandwatch() {
+      const token = document.getElementById('bwToken').value.trim();
+      const projectId = document.getElementById('bwProject').value;
+
+      document.getElementById('bwError').classList.remove('show');
+      document.getElementById('pushResults').classList.remove('show');
+
+      if (!token) return showBwError('Please enter your Brandwatch API token.');
+      if (!projectId) return showBwError('Please select a Brandwatch project.');
+      if (!taxonomyData) return showBwError('Please generate a taxonomy first.');
+
+      const btn = document.getElementById('pushBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Pushing to Brandwatch…';
+
+      try {
+        const res = await fetch('/api/bw-push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, projectId, taxonomy: taxonomyData })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Push failed');
+
+        // Show results
+        document.getElementById('pushResults').classList.add('show');
+
+        if (data.created && data.created.length > 0) {
+          document.getElementById('pushSuccess').style.display = 'block';
+          document.getElementById('pushSuccessList').innerHTML = data.created.map(n => `✓ ${n}`).join('<br>');
+        }
+
+        if (data.failed && data.failed.length > 0) {
+          document.getElementById('pushFailed').style.display = 'block';
+          document.getElementById('pushFailedList').innerHTML = data.failed.map(f => `✗ ${f.name}: ${f.error}`).join('<br>');
+        }
+
+      } catch (err) {
+        showBwError(err.message || 'Failed to push to Brandwatch.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Push Categories to Brandwatch';
+      }
+    }
+
+    function showBwError(msg) {
+      const box = document.getElementById('bwError');
+      box.textContent = '⚠️ ' + msg;
+      box.classList.add('show');
     }
 
     function exportCSV() {
@@ -660,17 +455,16 @@
       showToast();
     }
 
+    function exportJSON() {
+      if (!taxonomyData) return;
+      navigator.clipboard.writeText(JSON.stringify(taxonomyData, null, 2)).then(showToast);
+    }
+
     function copyRule(btn, rule) {
       navigator.clipboard.writeText(rule).then(() => {
         btn.textContent = 'Copied!';
         setTimeout(() => btn.textContent = 'Copy', 2000);
       });
-    }
-
-    function exportJSON() {
-      if (!taxonomyData) return;
-      const json = JSON.stringify(taxonomyData, null, 2);
-      navigator.clipboard.writeText(json).then(showToast);
     }
 
     function downloadFile(content, filename, type) {
@@ -687,9 +481,7 @@
       box.classList.add('show');
     }
 
-    function hideError() {
-      document.getElementById('errorBox').classList.remove('show');
-    }
+    function hideError() { document.getElementById('errorBox').classList.remove('show'); }
 
     function showToast() {
       const t = document.getElementById('toast');
